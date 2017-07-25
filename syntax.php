@@ -75,9 +75,11 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         $request = $jenkins->request($url);
         print_r($request);
         $img = $this->getBuildIcon($request['result']);
-        $renderer->doc .= '<div class="jenkins">';
-        $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/'.$img.'"></span> ';
-        $renderer->doc .= '<a href="'.$request['url'].'">'.$request['fullDisplayName'].'</a>';
+        $renderer->doc .= '<div>';
+        $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins"></span> ';
+        $renderer->doc .= '<span class="jenkins">';
+        $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a>';
+        $renderer->doc .= '</span>';
         $renderer->doc .= '</div>';
     }
 

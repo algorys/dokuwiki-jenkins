@@ -1,0 +1,17 @@
+span.jenkins {
+    background-color: #4a90e2;
+    color: white;
+    padding: 0.4em;
+    vertical-align: middle;
+}
+
+img.jenkins {
+    height: 1.5em;
+    width: 1.5em;
+}
+a.jenkins {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
