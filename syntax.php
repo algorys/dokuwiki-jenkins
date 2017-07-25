@@ -30,12 +30,37 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('<jenkins[^>]*/>', $mode, 'plugin_jenkins');
     }
 
+    function getURLProtocol($url) {
+        if (strpos($url, 'https') !== false) {
+            $url_protocol = array(
+                'protocol' => 'https',
+                'url' => str_replace('https://', '', $url)
+            );
+            return $url_protocol;
+        } elseif (strpos($url, 'http') !== false) {
+            $url_protocol = array(
+                'protocol' => 'http',
+                'url' => str_replace('http://', '', $url)
+            );
+            return $url_protocol;
+        } else {
+            return array('state'=>$state, 'bytepos_end' => $pos + strlen($match));
+        }
+    }
+
     function handle($match, $state, $pos, Doku_Handler $handler) {
         switch($state){
             case DOKU_LEXER_SPECIAL :
                 $data = array(
                         'state'=>$state,
                 );
+
+                // Jenkins Configuration 
+                $jenkins_data = $this->getURLProtocol($this->getConf('jenkins.url'));
+                $data['url'] = $jenkins_data['url'];
+                $data['protocol'] = $jenkins_data['protocol'];
+                $data['user'] = $this->getConf('jenkins.user');
+                $data['token'] = $this->getConf('jenkins.token');
 
                 // Jenkins Job
                 preg_match("/job *= *(['\"])(.*?)\\1/", $match, $job);
@@ -58,7 +83,7 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         $renderer->info['cache'] = false;
         switch($data['state']) {
             case DOKU_LEXER_SPECIAL:
-                $this->connectToServer($renderer, $data);
+                $this->rendererJenkins($renderer, $data);
             case DOKU_LEXER_EXIT:
             case DOKU_LEXER_ENTER:
             case DOKU_LEXER_UNMATCHED:
@@ -68,18 +93,25 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         return true;
     }
 
-    function connectToServer($renderer, $data) {
-        $jenkins = new DokuwikiJenkins();
-
+    function rendererJenkins($renderer, $data) {
+        // Get Jenkins data
+        $jenkins = new DokuwikiJenkins($data);
         $url = $jenkins->getJobURLRequest($data['job']);
         $request = $jenkins->request($url);
-        print_r($request);
+
+        // Manage data
         $img = $this->getBuildIcon($request['result']);
+        $duration = $this->getDurationFromMilliseconds($request['duration']);
+        $short_desc = $request['actions'][0]['causes'][0]['shortDescription'];
+
+        // Renderer
         $renderer->doc .= '<div>';
         $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins"></span> ';
         $renderer->doc .= '<span class="jenkins">';
         $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a>';
-        $renderer->doc .= '</span>';
+        $renderer->doc .= '</span><br>';
+        $renderer->doc .= '<span> <b>Duration:</b> '.$duration.'</span>';
+        $renderer->doc .= '<span> <b>Message:</b> '.$short_desc.'</span>';
         $renderer->doc .= '</div>';
     }
 
@@ -91,6 +123,33 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         );
 
         return $icons[$result];
+    }
+
+    function getDurationFromMilliseconds($ms) {
+        $x = $ms / 1000;
+        $seconds = $x % 60;
+        $x /= 60;
+        $minutes = $x % 60;
+        $x /= 60;
+        $hours = $x % 24;
+        $x /= 24;
+        $days = $x;
+
+        $duration = '';
+        if ($days >= 1) {
+            $duration .= $days.'d ';
+        }
+        if ($hours >= 1) {
+            $duration .= $hours.'h ';
+        }
+        if ($minutes >= 1) {
+            $duration .= $minutes.'m ';
+        }
+        if ($seconds >= 1) {
+            $duration .= $seconds.'s ';
+        }
+
+        return $duration;
     }
 
 }

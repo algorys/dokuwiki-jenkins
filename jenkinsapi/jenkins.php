@@ -7,9 +7,9 @@ class DokuwikiJenkins {
     public $client;
     public $url;
 
-    function __construct() {
+    function __construct($data) {
         $this->client = curl_init();
-        $this->url = 'http://mea:2891a280b34bef7c377e5a1277e30269@jenkins.alpi-net.com';
+        $this->url = $data['protocol'].'://'.$data['user'].':'.$data['token'].'@'.$data['url'];
     }
 
     function request($url) {
