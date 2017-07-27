@@ -100,25 +100,41 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         $url = $jenkins->getJobURLRequest($data['job']);
         $request = $jenkins->request($url);
 
-        // Manage data
-        $img = $this->getBuildIcon($request['result']);
-        $duration = $this->getDurationFromMilliseconds($request['duration']);
-        $short_desc = $request['actions'][0]['causes'][0]['shortDescription'];
+        $renderer->doc .= 'Request: '.$request;
 
-        // Renderer
+        if ($request == '') {
+            $this->renderErrorRequest($renderer, $data);
+        } else {
+
+            // Manage data
+            $img = $this->getBuildIcon($request['result']);
+            $duration = $this->getDurationFromMilliseconds($request['duration']);
+            $short_desc = $request['actions'][0]['causes'][0]['shortDescription'];
+
+            // Renderer
+            $renderer->doc .= '<div><p>';
+            $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/jenkins.png" class="jenkinslogo"></span> ';
+            $renderer->doc .= '<span class="jenkins">';
+            $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a> ';
+            $renderer->doc .= '<img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins" title="'.$request['result'].'">';
+            $renderer->doc .= '</span></p>';
+            $renderer->doc .= '<p>';
+            $renderer->doc .= '<span> <b>Duration:</b> '.$duration.'</span>';
+            if ($short_desc != '')
+                $renderer->doc .= '<span> <b>Message:</b> '.$short_desc.'</span>';
+            else
+                $renderer->doc .= '<span> <b>Message:</b> No description.</span>';
+            $renderer->doc .= '</p>';
+            $renderer->doc .= '</div>';
+        }
+    }
+
+    function renderErrorRequest($renderer, $data) {
         $renderer->doc .= '<div><p>';
         $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/jenkins.png" class="jenkinslogo"></span> ';
-        $renderer->doc .= '<span class="jenkins">';
-        $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a> ';
-        $renderer->doc .= '<img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins" title="'.$request['result'].'">';
+        $renderer->doc .= '<span class="jenkinsfailed">';
+        $renderer->doc .= sprintf('Job %s is not found !', $data['job']);
         $renderer->doc .= '</span></p>';
-        $renderer->doc .= '<p>';
-        $renderer->doc .= '<span> <b>Duration:</b> '.$duration.'</span>';
-        if ($short_desc != '')
-            $renderer->doc .= '<span> <b>Message:</b> '.$short_desc.'</span>';
-        else
-            $renderer->doc .= '<span> <b>Message:</b> No description.</span>';
-        $renderer->doc .= '</p>';
         $renderer->doc .= '</div>';
     }
 

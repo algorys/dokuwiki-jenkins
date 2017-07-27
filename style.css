@@ -5,6 +5,13 @@ span.jenkins {
     vertical-align: middle;
 }
 
+span.jenkinsfailed {
+    background-color: #ff9191;
+    color: white;
+    padding: 0.4em;
+    vertical-align: middle;
+}
+
 img.jenkinslogo {
     height: 2em;
     width: 2em; 
