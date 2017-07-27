@@ -13,10 +13,10 @@ img.jenkinslogo {
 img.jenkins {
     height: 1.5em;
     width: 1.5em;
-    vertical-align: text-top;
+    margin-bottom: 0.3em;
 }
 
-a.jenkins {
+a.jenkins, a.jenkins:link, a.jenkins:visited {
     color: white;
     text-decoration: none;
     font-size: 18px;

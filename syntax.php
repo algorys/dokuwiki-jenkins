@@ -48,6 +48,7 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         }
     }
 
+    // Dokuwiki Handler
     function handle($match, $state, $pos, Doku_Handler $handler) {
         switch($state){
             case DOKU_LEXER_SPECIAL :
@@ -122,7 +123,6 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
     }
 
     function getBuildIcon($result) {
-        print_r($result);
         $icons = Array(
             'SUCCESS' => 'success.svg',
             'ABORTED' => 'aborted.svg',
