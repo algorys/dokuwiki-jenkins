@@ -105,21 +105,28 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         $short_desc = $request['actions'][0]['causes'][0]['shortDescription'];
 
         // Renderer
-        $renderer->doc .= '<div>';
-        $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins"></span> ';
+        $renderer->doc .= '<div><p>';
+        $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/jenkins.png" class="jenkinslogo"></span> ';
         $renderer->doc .= '<span class="jenkins">';
-        $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a>';
-        $renderer->doc .= '</span><br>';
+        $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a> ';
+        $renderer->doc .= '<img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins" title="'.$request['result'].'">';
+        $renderer->doc .= '</span></p>';
+        $renderer->doc .= '<p>';
         $renderer->doc .= '<span> <b>Duration:</b> '.$duration.'</span>';
-        $renderer->doc .= '<span> <b>Message:</b> '.$short_desc.'</span>';
+        if ($short_desc != '')
+            $renderer->doc .= '<span> <b>Message:</b> '.$short_desc.'</span>';
+        else
+            $renderer->doc .= '<span> <b>Message:</b> No description.</span>';
+        $renderer->doc .= '</p>';
         $renderer->doc .= '</div>';
     }
 
     function getBuildIcon($result) {
+        print_r($result);
         $icons = Array(
             'SUCCESS' => 'success.svg',
             'ABORTED' => 'aborted.svg',
-            'FAILED' => 'failed.svg'
+            'FAILURE' => 'failed.svg'
         );
 
         return $icons[$result];

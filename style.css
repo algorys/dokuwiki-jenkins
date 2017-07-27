@@ -5,13 +5,34 @@ span.jenkins {
     vertical-align: middle;
 }
 
+img.jenkinslogo {
+    height: 2em;
+    width: 2em; 
+}
+
 img.jenkins {
     height: 1.5em;
     width: 1.5em;
+    vertical-align: text-top;
 }
+
 a.jenkins {
     color: white;
     text-decoration: none;
     font-size: 18px;
     font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1; 
 }
