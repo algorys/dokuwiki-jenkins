@@ -41,4 +41,11 @@ class DokuwikiJenkins {
 
         return $job_url;
     }
+
+    function getWeatherImg($url) {
+        $request = $this->request($url, true);
+        $weather = $request['healthReport'][0]['iconUrl'];
+
+        return $weather;
+    }
 }

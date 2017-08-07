@@ -110,6 +110,7 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         }
         $build = $data['build'];
         $request = $jenkins->request($url, $build);
+        $weather_icon = $jenkins->getWeatherImg($jenkins->getJobURLRequest($data['job']));
 
         if ($request == '') {
             $this->renderErrorRequest($renderer, $data);
@@ -119,13 +120,19 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
             $duration = $this->getDurationFromMilliseconds($request['duration']);
             $short_desc = $request['actions'][0]['causes'][0]['shortDescription'];
 
-            // Renderer
-            $renderer->doc .= '<div><p>';
+            // RENDERER
+            $renderer->doc .= '<div>';
+            // Jenkins logo
             $renderer->doc .= '<span><img src="lib/plugins/jenkins/images/jenkins.png" class="jenkinslogo"></span> ';
+            // Build span
             $renderer->doc .= '<span class="jenkins">';
-            $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank">'.$request['fullDisplayName'].'</a> ';
+            // Weather
+            $renderer->doc .= '<img src="lib/plugins/jenkins/images/'.$weather_icon.'" class="jenkins">';
+            // Url and Job name
+            $renderer->doc .= '<a href="'.$request['url'].'" class="jenkins" target="_blank"> '.$request['fullDisplayName'].'</a> ';
             $renderer->doc .= '<img src="lib/plugins/jenkins/images/'.$img.'" class="jenkins" title="'.$request['result'].'">';
-            $renderer->doc .= '</span></p>';
+            $renderer->doc .= '</span>';
+            // Job Details
             $renderer->doc .= '<p>';
             $renderer->doc .= '<span> <b>'.$this->getLang('jenkins.duration').':</b> '.$duration.'</span>';
             $renderer->doc .= '<span> <b>'.$this->getLang('jenkins.msg').'</b> ';
@@ -133,8 +140,7 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
                 $renderer->doc .= $short_desc.'</span>';
             else
                 $renderer->doc .= $this->getLang('jenkins.nodesc').'</span>';
-            $renderer->doc .= '</p>';
-            $renderer->doc .= '</div>';
+            $renderer->doc .= '</p></div>';
         }
     }
 
