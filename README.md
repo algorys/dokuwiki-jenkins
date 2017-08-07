@@ -31,17 +31,21 @@ You should configure Dokwuki-Jenkins in the Config Manager of Dokuwiki:
 
 To use Dokuwiki-Jenkins, use the below syntax:
 
-```html
+```php
 <jenkins job="JOB_NAME" />
 ```
 
 If you job is in a folder, please use it as follow:
 
-```html
+```php
 <jenkins job="FOLDER/JOB_NAME" />
 ```
 
-That's all !
+By default, jenkins plugin display the last build of your job. If you want to display a specific build, you can by adding the build option:
+
+```php
+<jenkins job="FOLDER/JOB_NAME" build="459"/>
+```
 
 # Preview
 
