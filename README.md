@@ -1,9 +1,15 @@
 # Plugin Jenkins
 
 
-Dokuwiki plugin for Jenkins user. Currently, this plugin only display Job last state and some information.
+Dokuwiki plugin for Jenkins user.
 
-In the future, it will allow more things (such as displaying a specific build or triggering a job via Dokuwiki).
+Features:
+  * Display last build of a Job or a specific build
+  * Display status of build
+  * Display "weather" of the Job
+  * Follow new Blue Ocean theme
+
+In future versions, it will allow you to trigger a job from Dokuwiki.
 
 # Requirements
 
