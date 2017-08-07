@@ -54,6 +54,7 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
             case DOKU_LEXER_SPECIAL :
                 $data = array(
                         'state'=>$state,
+                        'build'=>false,
                 );
 
                 // Jenkins Configuration 
@@ -67,6 +68,12 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
                 preg_match("/job *= *(['\"])(.*?)\\1/", $match, $job);
                 if (count($job) != 0) {
                     $data['job'] = $job[2];
+                }
+                // Jenkins Build
+                preg_match("/build *= *(['\"])(\\d+)\\1/", $match, $build_nb);
+                if ((count($build_nb) != 0) && ($build_nb[2] != 0)) {
+                    $data['build_nb'] = $build_nb[2];
+                    $data['build'] = true;
                 }
 
                 return $data;
@@ -98,7 +105,11 @@ class syntax_plugin_jenkins extends DokuWiki_Syntax_Plugin {
         // Get Jenkins data
         $jenkins = new DokuwikiJenkins($data);
         $url = $jenkins->getJobURLRequest($data['job']);
-        $request = $jenkins->request($url);
+        if (isset($data['build_nb'])) {
+            $url = $url . '/' . $data['build_nb'];
+        }
+        $build = $data['build'];
+        $request = $jenkins->request($url, $build);
 
         if ($request == '') {
             $this->renderErrorRequest($renderer, $data);

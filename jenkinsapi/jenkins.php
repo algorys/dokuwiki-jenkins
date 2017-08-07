@@ -12,8 +12,11 @@ class DokuwikiJenkins {
         $this->url = $data['protocol'].'://'.$data['user'].':'.$data['token'].'@'.$data['url'];
     }
 
-    function request($url) {
-        $url_srv = $this->url . $url . '/lastBuild/api/json';
+    function request($url, $build = false) {
+        if ($build)
+            $url_srv = $this->url . $url . '/api/json';
+        else
+            $url_srv = $this->url . $url . '/lastBuild/api/json';
 
         curl_setopt($this->client, CURLOPT_URL, $url_srv);
         curl_setopt($this->client, CURLOPT_HTTPHEADER, array(

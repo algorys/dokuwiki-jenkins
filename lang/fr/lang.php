@@ -10,5 +10,5 @@ $lang['jenkins.duration']   = 'Durée';
 $lang['jenkins.msg']        = 'Message';
 
 $lang['jenkins.nodesc']     = 'Pas de description.';
-$lang['jenkins.error']      = 'Le Job %s n\'a pas été trouvé !';
+$lang['jenkins.error']      = 'Le Job %s ou le numéro de build n\'a pas été trouvé !';
 
