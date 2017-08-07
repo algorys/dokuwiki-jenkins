@@ -5,6 +5,7 @@
 $lang['encoding']   = 'utf-8';
 $lang['direction']  = 'ltr';
 
+$lang['jenkins.button']     = 'Jenkins Job';
 $lang['jenkins.duration']   = 'Duration';
 $lang['jenkins.msg']        = 'Message';
 
