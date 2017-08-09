@@ -24,7 +24,7 @@ Download Redissue plugin into your `${dokuwiki_root}/lib/plugins` folder and res
 You should configure Dokwuki-Jenkins in the Config Manager of Dokuwiki:
 
 * **jenkins.url**: Put your Jenkins url here, without a slash ending. i.e.: `http://my-jenkins.com`.
-* **jenkins.user**: Set a Jenkins user with admin right if possible to display any job.
+* **jenkins.user**: Set a Jenkins User ID with good rights to display any job.
 * **jenkins.token**: Set the corresponding Jenkins user token. You can find it in `http://JENKINS_URL/user/USER/configure`, then click on `Show API Token`" button.
 
 # Syntax
@@ -49,6 +49,6 @@ By default, jenkins plugin display the last build of your job. If you want to di
 
 # Preview
 
-![Plugin Preview](images/jenkins_preview.png)
+![Plugin Preview](https://s1.postimg.org/olp2xm0f3/jenkins_preview.png)
 
 For further information, see also [Dokuwiki-Jenkins on dokuwiki.org](https://www.dokuwiki.org/plugin:jenkins)
