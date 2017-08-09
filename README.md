@@ -24,7 +24,7 @@ Download Redissue plugin into your `${dokuwiki_root}/lib/plugins` folder and res
 You should configure Dokwuki-Jenkins in the Config Manager of Dokuwiki:
 
 * **jenkins.url**: Put your Jenkins url here, without a slash ending. i.e.: `http://my-jenkins.com`.
-* **jenkins.user**: Set a Jenkins User ID with good rights to display any job.
+* **jenkins.user**: Enter the ID of a Jenkins user, with the right to view any job..
 * **jenkins.token**: Set the corresponding Jenkins user token. You can find it in `http://JENKINS_URL/user/USER/configure`, then click on `Show API Token`" button.
 
 # Syntax
